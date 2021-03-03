@@ -1,7 +1,9 @@
 package app;
 
+import data.Data;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
+import lejos.robotics.Color;
 import lejos.utility.Delay;
 import runnables.*;
 
@@ -33,14 +35,16 @@ public class Main {
 		motorB.start();
 		readcolor.start();
 		
+		
 		runMotorA.startMotor();
 		runMotorB.startMotor();
 		
-		Delay.msDelay(2000);
+		//Delay.msDelay(4000);
 		
+		if (Data.color == 1) {
 		runMotorA.stopMotor();
 		runMotorB.stopMotor();
-		
+		}
 		
 		
 	}

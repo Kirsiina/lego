@@ -25,14 +25,14 @@ public class RunMotorA implements Runnable{
 			
 			Data.direction = 1;
 			motorA.forward();
-			//System.out.println("Motor A moving forward!");
+			
 		}
 		
 	}
 	
 	public void startMotor() {
 		motorA.setPower(50);
-		//System.out.println("Set speed for motorA!");
+		
 		
 	}
 	
