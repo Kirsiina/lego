@@ -17,14 +17,14 @@ public class LegoMain {
 		
 		Button.waitForAnyPress();
 		
-		tMotorA.start();  //k‰ynnistet‰‰n s‰ie
+		tMotorA.start();  //k‰ynnistet‰‰n s‰ie, ja liikutaan eteenp‰in
 		
 		motorA.setSpeed(); //oliolla moottoreille nopeus
 		
 		
 		Delay.msDelay(1000);
 		
-		motorA.stopMotor();
+		motorA.stopMotor();  //pys‰ytt‰‰ s‰ikeen
 		motorA.turnRight();
 		
 		Delay.msDelay(1000);

@@ -4,7 +4,7 @@ import data.Data;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
 
-public class MotorA implements Runnable { //ja B nyt toistaiseksi(?), eik‰ ole viel‰ toteuta runnable-rajapintaa
+public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luultavasti jakaa omiin luokkiinsa
 	
 	// m‰‰ritt‰v‰t luokan muuttujat, k‰ytet‰‰n moottrien kontrolloimiseen
 	private EV3LargeRegulatedMotor motorA; //oikea moottori
