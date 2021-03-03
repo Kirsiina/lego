@@ -31,12 +31,12 @@ public class Main {
 
 		Button.waitForAnyPress();
 		
-		motorA.start();
+		motorA.start();  //säie alkaa
 		motorB.start();
 		readcolor.start();
 		
 		
-		runMotorA.startMotor();
+		runMotorA.startMotor(); //olio kutsuu metodia, jolla nopeus
 		runMotorB.startMotor();
 		
 		//Delay.msDelay(4000);
