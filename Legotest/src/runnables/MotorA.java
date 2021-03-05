@@ -7,8 +7,8 @@ import lejos.hardware.port.Port;
 public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luultavasti jakaa omiin luokkiinsa
 	
 	// m‰‰ritt‰v‰t luokan muuttujat, k‰ytet‰‰n moottrien kontrolloimiseen
-	private EV3LargeRegulatedMotor motorA; //oikea moottori
-	private EV3LargeRegulatedMotor motorB; //vasen moottori
+	private EV3LargeRegulatedMotor motorA; //vasen moottori
+	private EV3LargeRegulatedMotor motorB; //oikea moottori
 	
 	private final static int speed = 200; //muuta myˆhemmin Data-luokan arvoksi, jos mahdollista. T‰llˆin nopeutta voisi vaihdella tilanteen mukaan
 	
@@ -16,11 +16,7 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 									// jos ei hajoteta moottoreita kahteen eri luokkaan
 		
 		motorA = new EV3LargeRegulatedMotor(A); //Oliot, joilla portit m‰‰ritelty
-		motorB = new EV3LargeRegulatedMotor(B);
-		
-//		motorA.setSpeed(speed);  siirretty omaan metodiin, jotta k‰ynnistys onnistuu mainiss‰
-//		motorB.setSpeed(speed);
-		
+		motorB = new EV3LargeRegulatedMotor(B);	
 	}
 	
 	
@@ -35,25 +31,26 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 					e.printStackTrace();
 			}
 			
-			motorA.forward();
-			motorB.forward();
-			
+			moveForward();		
 		}
 		
 	}
 	
-//	public void moveForward() { //siirretty runnable-metodiin
-//		
-//		motorA.forward();
-//		motorB.forward(); 
-//	}
+	//kummatkin moottorit kulkee eteenp‰in
+	public void moveForward() {
+		
+		motorA.forward();
+		motorB.forward(); 
+	}
 	
+	//asetetaan nopeus
 	public void setSpeed() {
 		
 		motorA.setSpeed(speed);  
 		motorB.setSpeed(speed);
 	}
 	
+	//pys‰ytet‰‰n moottori
 	public void stopMotor() {
 		
 		Data.shouldRun = false;
@@ -62,17 +59,19 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 //		motorB.stop();
 	}
 	
+	//k‰‰nnyt‰‰n oikealle
 	public void turnRight() { //jos erilliset luokat moottorille, niin jaetaan k‰skyt sen mukaan? Eli samat metodit, mutta k‰skytet‰‰n moottoreita omissa luokissaan
 		
-		motorA.backward();
-		motorB.forward();
+		motorA.forward(); 
+		motorB.backward();
 		
 	}
 	
+	//k‰‰nnyt‰‰n vasemmalle
 	public void turnLeft() {
 		
-		motorA.forward();
-		motorB.backward();
+		motorA.backward();
+		motorB.forward();
 		
 	}
 

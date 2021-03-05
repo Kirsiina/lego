@@ -2,39 +2,45 @@ package app;
 
 import lejos.hardware.Button;
 import lejos.hardware.port.MotorPort;
-import lejos.utility.Delay;
+import lejos.hardware.port.SensorPort;
+import runnables.ColorSensor;
 import runnables.MotorA;
 
 public class LegoMain {
 
 	public static void main(String[] args) {
 		
-		MotorA motorA = new MotorA(MotorPort.A, MotorPort.B); //luodaan olio MotorA-luokasta kutsumalla sen muodostinta, ja lähetetään käytettävät portit
+		log("Program starts"); //kirjoitetaan lokiin ohjelman käynnistys
 		
+		ColorSensor colorsensor = new ColorSensor(SensorPort.S4); //luodaan olio ColorSensor-luokasta, jolle määritellään portti
+		MotorA motorA = new MotorA(MotorPort.A, MotorPort.B); //luodaan olio MotorA-luokasta kutsumalla sen muodostinta, ja lähetetään käytettävät portit
+
+
 		Thread tMotorA = new Thread(motorA);  //luodaan säie, joka käyttää oliota
+		Thread tColorSensor = new Thread(colorsensor);
 		
 		System.out.println("Press any key to start");
 		
 		Button.waitForAnyPress();
 		
-		tMotorA.start();  //käynnistetään säie, ja liikutaan eteenpäin
+		// käynnistetään säikeet
+		tMotorA.start();  //liikutaan eteenpäin
+		tColorSensor.start(); // tutkitaan sensorista saatavaa väriä
 		
-		motorA.setSpeed(); //oliolla moottoreille nopeus
 		
-		
-		Delay.msDelay(1000);
-		
-		motorA.stopMotor();  //pysäyttää säikeen
-		motorA.turnRight();
-		
-		Delay.msDelay(1000);
-		
-		motorA.turnLeft();
-		
-		Delay.msDelay(1000);
-
+		//niin kauan kuin olion followPath-metodi palauttaa arvon true, annetaan moottoreille nopeus. Jos palautuu false, moottorit sammuvat.
+		while (colorsensor.followPath()) {
+			motorA.setSpeed();
+		}
 		motorA.stopMotor();
+		
 
+
+	}
+
+	private static void log(String msg) {
+		System.out.println("log>\t" + msg);
+		
 	}
 
 }
