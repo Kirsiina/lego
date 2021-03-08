@@ -20,6 +20,11 @@ public class ColorSensor extends EV3ColorSensor implements Runnable{
 			}
 			
 			followPath();
+			
+			if (followPath() == false) {
+				Data.shouldRun = false;
+			}
+
 		}
 		
 	}

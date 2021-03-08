@@ -34,8 +34,8 @@ public class ColorSensor implements ColorIdentifier{ //Värisensoriluokka impleme
 	public int getColorID() {  //hakee värin sensorista ja tallentaa sen arrayhin
 		
 		sp.fetchSample(colorsample, 0);
-		Data.color = (int)colorsample[0];
-		return Data.color;
+		return (int) colorsample[0];
+		
 
 	}
 	

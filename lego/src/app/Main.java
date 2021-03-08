@@ -41,7 +41,7 @@ public class Main {
 		
 		//Delay.msDelay(4000);
 		
-		if (Data.color == 1) {
+		if (Data.color == Color.BROWN) {
 		runMotorA.stopMotor();
 		runMotorB.stopMotor();
 		}

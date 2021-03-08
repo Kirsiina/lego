@@ -24,14 +24,16 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 	@Override
 	public void run() {  
 	while (Data.shouldRun) {
-			
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
 					e.printStackTrace();
 			}
 			
-			moveForward();		
+			moveForward();
+			if (Data.shouldRun == false) {
+				stopMotor();
+			}
 		}
 		
 	}
@@ -53,10 +55,10 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 	//pys‰ytet‰‰n moottori
 	public void stopMotor() {
 		
-		Data.shouldRun = false;
+		//Data.shouldRun = false;
 		
-//		motorA.stop(); //korvattu yll‰olevalla
-//		motorB.stop();
+		motorA.stop(); //korvattu yll‰olevalla
+		motorB.stop();
 	}
 	
 	//k‰‰nnyt‰‰n oikealle

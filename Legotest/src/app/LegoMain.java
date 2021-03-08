@@ -26,15 +26,8 @@ public class LegoMain {
 		// k‰ynnistet‰‰n s‰ikeet
 		tMotorA.start();  //liikutaan eteenp‰in
 		tColorSensor.start(); // tutkitaan sensorista saatavaa v‰ri‰
-		
-		
-		//niin kauan kuin olion followPath-metodi palauttaa arvon true, annetaan moottoreille nopeus. Jos palautuu false, moottorit sammuvat.
-		while (colorsensor.followPath()) {
-			motorA.setSpeed();
-		}
-		motorA.stopMotor();
-		
 
+		motorA.setSpeed();
 
 	}
 
