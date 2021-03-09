@@ -15,8 +15,8 @@ public class LegoMain {
 		ColorSensor colorsensor = new ColorSensor(SensorPort.S4); //luodaan olio ColorSensor-luokasta, jolle m‰‰ritell‰‰n portti
 		MotorA motorA = new MotorA(MotorPort.A, MotorPort.B); //luodaan olio MotorA-luokasta kutsumalla sen muodostinta, ja l‰hetet‰‰n k‰ytett‰v‰t portit
 
-
-		Thread tMotorA = new Thread(motorA);  //luodaan s‰ie, joka k‰ytt‰‰ oliota
+		//luodaan s‰ikeet, joka k‰ytt‰‰ olioita
+		Thread tMotorA = new Thread(motorA);  
 		Thread tColorSensor = new Thread(colorsensor);
 		
 		System.out.println("Press any key to start");
@@ -27,7 +27,8 @@ public class LegoMain {
 		tMotorA.start();  //liikutaan eteenp‰in
 		tColorSensor.start(); // tutkitaan sensorista saatavaa v‰ri‰
 
-		motorA.setSpeed();
+		Button.waitForAnyPress();
+		motorA.stopMotor();
 
 	}
 

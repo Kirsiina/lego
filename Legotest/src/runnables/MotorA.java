@@ -3,6 +3,7 @@ package runnables;
 import data.Data;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
+import lejos.utility.Delay;
 
 public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luultavasti jakaa omiin luokkiinsa
 	
@@ -10,7 +11,12 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 	private EV3LargeRegulatedMotor motorA; //vasen moottori
 	private EV3LargeRegulatedMotor motorB; //oikea moottori
 	
-	private final static int speed = 200; //muuta myˆhemmin Data-luokan arvoksi, jos mahdollista. T‰llˆin nopeutta voisi vaihdella tilanteen mukaan
+	//kummallekin moottorille oma nopeus
+	private final static int aSpeed = Data.speed;
+	private final static int bSpeed = Data.speed;
+	
+	//yksitt‰isen moottorin nopeuden alentamiseen
+	private static int lowerSpeed = 100; 
 	
 	public MotorA(Port A, Port B) {  //luokan muodostin, jolla p‰‰st‰‰n k‰siksi moottoreihin. Voidaan uudelleen nimet‰ luokan kanssa selkeyden vuoksi, 
 									// jos ei hajoteta moottoreita kahteen eri luokkaan
@@ -29,11 +35,21 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 			} catch (InterruptedException e) {
 					e.printStackTrace();
 			}
-			
+			setSpeed();
 			moveForward();
-			if (Data.shouldRun == false) {
-				stopMotor();
+			
+			//jos v‰ri‰ ei en‰‰ havaita, k‰‰nnyt‰‰n ensisijaisesti oikealle.
+			//Jos v‰ri havaitaan, keskeytet‰‰n while-loop
+			while (Data.colorDetected == false) { 
+				turnRight();
+				
+				if (Data.colorDetected) {
+
+					break;
+				}
+				
 			}
+			
 		}
 		
 	}
@@ -45,35 +61,41 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 		motorB.forward(); 
 	}
 	
-	//asetetaan nopeus
+	//asetetaan moottoreille nopeus Data-luokasta saatavalla arvolla
 	public void setSpeed() {
 		
-		motorA.setSpeed(speed);  
-		motorB.setSpeed(speed);
+		motorA.setSpeed(aSpeed);  
+		motorB.setSpeed(bSpeed);
 	}
 	
 	//pys‰ytet‰‰n moottori
 	public void stopMotor() {
 		
-		//Data.shouldRun = false;
+		Data.shouldRun = false;
 		
-		motorA.stop(); //korvattu yll‰olevalla
+		motorA.stop();
 		motorB.stop();
 	}
 	
-	//k‰‰nnyt‰‰n oikealle
+	//k‰‰nnyt‰‰n oikealle hidastamalla oikeaa (B) moottoria
 	public void turnRight() { //jos erilliset luokat moottorille, niin jaetaan k‰skyt sen mukaan? Eli samat metodit, mutta k‰skytet‰‰n moottoreita omissa luokissaan
 		
-		motorA.forward(); 
-		motorB.backward();
-		
+		int newspeed = bSpeed-lowerSpeed;
+		motorB.setSpeed(newspeed);
+		motorA.setSpeed(aSpeed);
+//		motorA.forward(); //k‰‰nnyt‰‰n asettamalla uudet vauhdit?
+//		motorB.backward();
+//		
 	}
 	
-	//k‰‰nnyt‰‰n vasemmalle
+	//k‰‰nnyt‰‰n vasemmalle hidastamalla vasenta (A) moottoria
 	public void turnLeft() {
 		
-		motorA.backward();
-		motorB.forward();
+		int newspeed = aSpeed-lowerSpeed;
+		motorA.setSpeed(newspeed);
+		motorB.setSpeed(bSpeed);
+//		motorA.backward();
+//		motorB.forward();
 		
 	}
 

@@ -12,7 +12,7 @@ public class ColorSensor extends EV3ColorSensor implements Runnable{
 	@Override
 	public void run() {
 		while (Data.shouldRun)
-		{
+		{			
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -21,9 +21,14 @@ public class ColorSensor extends EV3ColorSensor implements Runnable{
 			
 			followPath();
 			
-			if (followPath() == false) {
-				Data.shouldRun = false;
+			if (!followPath()) {
+				Data.colorDetected = false;	
 			}
+			
+			else {
+				Data.colorDetected = true;
+			}
+
 
 		}
 		
