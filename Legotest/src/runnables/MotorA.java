@@ -15,6 +15,8 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 	private final static int aSpeed = Data.speed;
 	private final static int bSpeed = Data.speed;
 	
+	//private static int wait = 5;
+	
 	//yksitt‰isen moottorin nopeuden alentamiseen
 	private static int lowerSpeed = 100; 
 	
@@ -42,6 +44,9 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 			//Jos v‰ri havaitaan, keskeytet‰‰n while-loop
 			while (Data.colorDetected == false) { 
 				turnRight();
+//				if (Data.colorDetected == false) {
+//					turnLeft();
+//				}
 				
 				if (Data.colorDetected) {
 

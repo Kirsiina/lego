@@ -29,6 +29,7 @@ public class LegoMain {
 
 		Button.waitForAnyPress();
 		motorA.stopMotor();
+		
 
 	}
 
