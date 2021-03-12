@@ -7,7 +7,7 @@ import lejos.utility.Delay;
 
 public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luultavasti jakaa omiin luokkiinsa
 	
-	// määrittävät luokan muuttujat, käytetään moottrien kontrolloimiseen
+	// määrittävät luokan muuttujat, käytetään moottorien kontrolloimiseen
 	private EV3LargeRegulatedMotor motorA; //vasen moottori
 	private EV3LargeRegulatedMotor motorB; //oikea moottori
 	
@@ -31,31 +31,27 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 	//Toteuttaa Runnable-luokan:
 	@Override
 	public void run() {  
-	while (Data.shouldRun) {
+	while (Data.color >= 0.06 && Data.color <= 0.14) {
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
 					e.printStackTrace();
 			}
+			
 			setSpeed();
 			moveForward();
 			
-			//jos väriä ei enää havaita, käännytään ensisijaisesti oikealle.
-			//Jos väri havaitaan, keskeytetään while-loop
-			while (Data.colorDetected == false) { 
-				turnRight();
-//				if (Data.colorDetected == false) {
-//					turnLeft();
-//				}
-				
-				if (Data.colorDetected) {
-
-					break;
-				}
-				
+			if (Data.color >= 0.19) {
+				turnLeft();
 			}
 			
-		}
+			if (Data.color <= 0.04) {
+				turnRight();
+			}
+			
+			
+				
+			}
 		
 	}
 	
@@ -75,8 +71,6 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 	
 	//pysäytetään moottori
 	public void stopMotor() {
-		
-		Data.shouldRun = false;
 		
 		motorA.stop();
 		motorB.stop();

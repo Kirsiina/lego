@@ -3,12 +3,17 @@ package runnables;
 import data.Data;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.robotics.Color;
+import lejos.robotics.SampleProvider;
 
-public class ColorSensor extends EV3ColorSensor implements Runnable{
+public class ColorSensor implements Runnable{
 	
-	private final static int PATH_COLOR = Data.color;
+	EV3ColorSensor	sensor;
+	float[]		sample;
 	
-	//niin kauan kuin Data.shouldrun on arvoltaan tosi, pyöritetään followPath-metodia
+	
+//	private final static float PATH_COLOR = Data.color;
+	
 	@Override
 	public void run() {
 		while (Data.shouldRun)
@@ -19,31 +24,40 @@ public class ColorSensor extends EV3ColorSensor implements Runnable{
 					e.printStackTrace();
 			}
 			
-			followPath();
-			
-			if (!followPath()) {
-				Data.colorDetected = false;	
-			}
-			
-			else {
-				Data.colorDetected = true;
-			}
-
-
+			setRedMode();
+			getRed();
+			Data.color = sample[0];
 		}
 		
 	}
 														
-	// luokan muodostin, joka kutsuu yläluokan muodostinta
+	// luokan muodostin
 	public ColorSensor(Port port) {
-		super(port);
+		sensor = new EV3ColorSensor(port);
+
 	}
 	
-	// tutkitaan, onko sensorista haettava väri sama kuin viivan väri
-	public boolean followPath() {
-		
-		return getColorID() == PATH_COLOR;
+	public EV3ColorSensor getSensor()
+	{
+		return sensor;
 	}
+	
+
+	
+	public void setRedMode()
+	{
+		sensor.setCurrentMode(Color.RED);
+		sample = new float[sensor.sampleSize()];
+	}
+	
+	public float getRed()
+	{
+		sensor.fetchSample(sample, 0);
+		return sample[0];
+		
+	}
+	
+
 
 
 }
