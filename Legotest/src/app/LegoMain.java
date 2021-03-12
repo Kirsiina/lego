@@ -10,12 +10,12 @@ public class LegoMain {
 
 	public static void main(String[] args) {
 		
-		log("Program starts"); //kirjoitetaan lokiin ohjelman käynnistys
+		log("Program starts"); //kirjoitetaan lokiin ohjelman kï¿½ynnistys
 		
-		ColorSensor colorsensor = new ColorSensor(SensorPort.S4); //luodaan olio ColorSensor-luokasta, jolle määritellään portti
-		MotorA motorA = new MotorA(MotorPort.A, MotorPort.B); //luodaan olio MotorA-luokasta kutsumalla sen muodostinta, ja lähetetään käytettävät portit
+		ColorSensor colorsensor = new ColorSensor(SensorPort.S4); //luodaan olio ColorSensor-luokasta, jolle mï¿½ï¿½ritellï¿½ï¿½n portti
+		MotorA motorA = new MotorA(MotorPort.A, MotorPort.B); //luodaan olio MotorA-luokasta kutsumalla sen muodostinta, ja lï¿½hetetï¿½ï¿½n kï¿½ytettï¿½vï¿½t portit
 
-		//luodaan säikeet, joka käyttää olioita
+		//luodaan sï¿½ikeet, joka kï¿½yttï¿½ï¿½ olioita
 		Thread tMotorA = new Thread(motorA);  
 		Thread tColorSensor = new Thread(colorsensor);
 		
@@ -23,9 +23,10 @@ public class LegoMain {
 		
 		Button.waitForAnyPress();
 		
-		// käynnistetään säikeet
-		tMotorA.start();  //liikutaan eteenpäin
-		tColorSensor.start(); // tutkitaan sensorista saatavaa väriä
+		// kï¿½ynnistetï¿½ï¿½n sï¿½ikeet
+		tColorSensor.start(); // tutkitaan sensorista saatavaa vï¿½riï¿½
+		tMotorA.start();  //liikutaan eteenpï¿½in
+		
 
 		Button.waitForAnyPress();
 		motorA.stopMotor();

@@ -7,7 +7,7 @@ import lejos.utility.Delay;
 
 public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luultavasti jakaa omiin luokkiinsa
 	
-	// määrittävät luokan muuttujat, käytetään moottorien kontrolloimiseen
+	// mï¿½ï¿½rittï¿½vï¿½t luokan muuttujat, kï¿½ytetï¿½ï¿½n moottorien kontrolloimiseen
 	private EV3LargeRegulatedMotor motorA; //vasen moottori
 	private EV3LargeRegulatedMotor motorB; //oikea moottori
 	
@@ -17,13 +17,13 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 	
 	//private static int wait = 5;
 	
-	//yksittäisen moottorin nopeuden alentamiseen
+	//yksittï¿½isen moottorin nopeuden alentamiseen
 	private static int lowerSpeed = 100; 
 	
-	public MotorA(Port A, Port B) {  //luokan muodostin, jolla päästään käsiksi moottoreihin. Voidaan uudelleen nimetä luokan kanssa selkeyden vuoksi, 
+	public MotorA(Port A, Port B) {  //luokan muodostin, jolla pï¿½ï¿½stï¿½ï¿½n kï¿½siksi moottoreihin. Voidaan uudelleen nimetï¿½ luokan kanssa selkeyden vuoksi, 
 									// jos ei hajoteta moottoreita kahteen eri luokkaan
 		
-		motorA = new EV3LargeRegulatedMotor(A); //Oliot, joilla portit määritelty
+		motorA = new EV3LargeRegulatedMotor(A); //Oliot, joilla portit mï¿½ï¿½ritelty
 		motorB = new EV3LargeRegulatedMotor(B);	
 	}
 	
@@ -31,7 +31,8 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 	//Toteuttaa Runnable-luokan:
 	@Override
 	public void run() {  
-	while (Data.color >= 0.06 && Data.color <= 0.14) {
+//	while (Data.color >= 0.06 && Data.color <= 0.14) {
+		while (Data.shouldRun) {
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -51,11 +52,11 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 			
 			
 				
-			}
+		}
 		
 	}
 	
-	//kummatkin moottorit kulkee eteenpäin
+	//kummatkin moottorit kulkee eteenpï¿½in
 	public void moveForward() {
 		
 		motorA.forward();
@@ -69,25 +70,25 @@ public class MotorA implements Runnable { //ja B nyt toistaiseksi, voidaan luult
 		motorB.setSpeed(bSpeed);
 	}
 	
-	//pysäytetään moottori
+	//pysï¿½ytetï¿½ï¿½n moottori
 	public void stopMotor() {
 		
 		motorA.stop();
 		motorB.stop();
 	}
 	
-	//käännytään oikealle hidastamalla oikeaa (B) moottoria
-	public void turnRight() { //jos erilliset luokat moottorille, niin jaetaan käskyt sen mukaan? Eli samat metodit, mutta käskytetään moottoreita omissa luokissaan
+	//kï¿½ï¿½nnytï¿½ï¿½n oikealle hidastamalla oikeaa (B) moottoria
+	public void turnRight() { //jos erilliset luokat moottorille, niin jaetaan kï¿½skyt sen mukaan? Eli samat metodit, mutta kï¿½skytetï¿½ï¿½n moottoreita omissa luokissaan
 		
 		int newspeed = bSpeed-lowerSpeed;
 		motorB.setSpeed(newspeed);
 		motorA.setSpeed(aSpeed);
-//		motorA.forward(); //käännytään asettamalla uudet vauhdit?
+//		motorA.forward(); //kï¿½ï¿½nnytï¿½ï¿½n asettamalla uudet vauhdit?
 //		motorB.backward();
 //		
 	}
 	
-	//käännytään vasemmalle hidastamalla vasenta (A) moottoria
+	//kï¿½ï¿½nnytï¿½ï¿½n vasemmalle hidastamalla vasenta (A) moottoria
 	public void turnLeft() {
 		
 		int newspeed = aSpeed-lowerSpeed;
