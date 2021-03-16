@@ -4,15 +4,12 @@ import data.Data;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.Color;
-import lejos.robotics.SampleProvider;
 
 public class ColorSensor implements Runnable{
 	
 	EV3ColorSensor	sensor;
 	float[]		sample;
 	
-	
-//	private final static float PATH_COLOR = Data.color;
 	
 	@Override
 	public void run() {
@@ -24,9 +21,11 @@ public class ColorSensor implements Runnable{
 					e.printStackTrace();
 			}
 			
+			
 			setRedMode();
 			getRed();
 			Data.color = sample[0];
+			
 		}
 		
 	}
@@ -46,7 +45,9 @@ public class ColorSensor implements Runnable{
 	
 	public void setRedMode()
 	{
-		sensor.setCurrentMode(Color.RED);
+		sensor.setFloodlight(Color.RED);
+		sensor.setFloodlight(true);
+		sensor.setCurrentMode("Red");
 		sample = new float[sensor.sampleSize()];
 	}
 	
@@ -57,7 +58,37 @@ public class ColorSensor implements Runnable{
 		
 	}
 	
+	public void setFloodLight(boolean on)
+	{
+		sensor.setFloodlight(on);
+	}
+	
+	/**
+	 * Set floodlight default led color.
+	 * @param color Color id value from Color object.
+	 */
+	public void setFloodLight(int color)
+	{
+		sensor.setFloodlight(color);
+	}
+	
+	/**
+	* Map color integer to name.
+	* @param color Color id value.
+	* @return String with color name.
+	*/
+	public static String colorName(int color)
+	{
+		switch (color)
+		{
+			
+			case Color.RED:
+				return "Red";	
 
+		}
+		
+		return "";
+	}
 
 
 }
