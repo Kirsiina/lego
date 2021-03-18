@@ -12,7 +12,7 @@ public class MeasureDistance implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		
 		while(Data.shouldRun) {
 			try {
 				Thread.sleep(1);

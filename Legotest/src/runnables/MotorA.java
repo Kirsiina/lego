@@ -17,7 +17,7 @@ public class MotorA implements Runnable {
 	
 	
 	//yksittäisen moottorin nopeuden alentamiseen
-	private static int lowerSpeed = 100; 
+	private static int lowerSpeed = 150; 
 	
 	//luokan muodostin, jolla päästään käsiksi moottoreihin.
 	public MotorA(Port A, Port B) {  
@@ -41,15 +41,23 @@ public class MotorA implements Runnable {
 			setSpeed();
 			moveForward();
 			
-			while (Data.color >= 0.16) {
+			if (Data.distance < 0.1) {
+				setSpeed();
+				moveBackward();
+				Delay.msDelay(1500);
+				avoidObstacle();
+				if (Data.color <= 0.25) {
+					sharpTurnRight();
+				}
+			}
+			
+			while (Data.color >= 0.6) {
 				turnLeft();
 			}
-			
-			while (Data.color < 0.06) {
+
+			while (Data.color < 0.25) {
 				turnRight();
 			}
-	
-			
 				
 		}
 		
@@ -95,7 +103,44 @@ public class MotorA implements Runnable {
 		motorB.setSpeed(bSpeed);
 		
 	}
+	
+	
+	public void sharpTurnRight(){
+		motorB.backward();
+		motorA.forward();
+	}
 
+	public void sharpTurnLeft(){
+		motorA.backward();
+		motorB.forward();
+	}
+	
+	public void avoidObstacle() {
+		stopMotor();
+		sharpTurnRight();
+		Delay.msDelay(700);
+		setSpeed();
+		moveForward();
+		Delay.msDelay(1500);
+		stopMotor();
+		sharpTurnLeft();
+		Delay.msDelay(700);
+		setSpeed();
+		moveForward();
+		Delay.msDelay(1500);
+		sharpTurnLeft();
+		Delay.msDelay(700);
+		setSpeed();
+		moveForward();
+		
+	}
+
+	
+	public void moveBackward(){
+		
+		motorA.backward();
+		motorB.backward();
+	}
 
 
 }
