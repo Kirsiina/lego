@@ -5,30 +5,54 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
-public class MotorA implements Runnable { 
+/**
+ * @author Jenny, Jenna, Kirsi
+ * 
+ * MotorAB-luokka muodostaa yhdeyden kumpaakin moottoriin,
+ * liikuttaa sit‰ viivaa seuraten saamalla sensoreista arvoja
+ * Data-luokan kautta ja toteuttaa Runnable-rajapinnan.
+ */
+
+public class MotorAB implements Runnable { 
 	
-	// m‰‰ritt‰v‰t luokan muuttujat, k‰ytet‰‰n moottorien kontrolloimiseen
-	private EV3LargeRegulatedMotor motorA; //vasen moottori
-	private EV3LargeRegulatedMotor motorB; //oikea moottori
+	/** 
+	 * M‰‰ritt‰v‰t luokan muuttujat, k‰ytet‰‰n moottorien kontrolloimiseen
+	 * motorA on vasen moottori, motorB on oikea moottori.
+	 */
+	private EV3LargeRegulatedMotor motorA;
+	private EV3LargeRegulatedMotor motorB;
 	
-	//kummallekin moottorille oma nopeus
+	/**
+	 * Asetetaan moottoreille Data-luokasta saatava nopeus.
+	 */
 	private final static int aSpeed = Data.speed;
 	private final static int bSpeed = Data.speed;
 	
 	
-	//yksitt‰isen moottorin nopeuden alentamiseen
+	/**
+	 * Muuttuja yksitt‰isen moottorin nopeuden alentamiseen
+	 */
 	private static int lowerSpeed = 150; 
 	
-	//luokan muodostin, jolla p‰‰st‰‰n k‰siksi moottoreihin.
-	public MotorA(Port A, Port B) {  
-									
-		//Oliot, joilla portit m‰‰ritelty
+	/**
+	 * Luokan muodostin, jolla p‰‰st‰‰n k‰siksi moottoreihin
+	 * antamalla parametrein‰ portit.
+	 */
+	public MotorAB(Port A, Port B) {  
+
 		motorA = new EV3LargeRegulatedMotor(A); 
 		motorB = new EV3LargeRegulatedMotor(B);	
 	}
 	
 	
-	//Toteuttaa Runnable-luokan:
+	/**
+	 * Run-metodi liikuttaa robottia ensisijaisesti eteenp‰in
+	 * viivan reunaa seuraten niin kauan, kun Data-luokan shouldRun-muuttuja 
+	 * on tosi. Ensin asetetaan nopeus ja liikutaan eteenp‰in. Data-luokan 
+	 * color-muuttujan arvo m‰‰ritt‰‰, kumpaan suuntaan k‰‰nnyt‰‰n. Data-luokan 
+	 * distance-muuttuja m‰‰ritt‰‰, tehd‰‰nkˆ v‰istˆliikkeit‰. T‰t‰ ominaisuutta 
+	 * ei olla p‰‰sty kunnolla testaamaan.
+	 */
 	@Override
 	public void run() {  
 		while (Data.shouldRun) {
@@ -63,21 +87,28 @@ public class MotorA implements Runnable {
 		
 	}
 	
-	//kummatkin moottorit kulkee eteenp‰in
+	/**
+	 * Kummatkin moottorit kulkee eteenp‰in.
+	 */
 	public void moveForward() {
 		
 		motorA.forward();
 		motorB.forward(); 
 	}
 	
-	//asetetaan moottoreille nopeus Data-luokasta saatavalla arvolla
+	/**
+	 * Asetetaan moottoreille nopeus Data-luokasta saatavalla arvolla.
+	 */
 	public void setSpeed() {
 		
 		motorA.setSpeed(aSpeed);  
 		motorB.setSpeed(bSpeed);
 	}
 	
-	//pys‰ytet‰‰n moottori
+	/**
+	 * Pys‰ytet‰‰n moottorit, ja annetaan Data-luokan shouldRun-muuttujalle
+	 * arvoksi false.
+	 */
 	public void stopMotor() {
 		
 		Data.shouldRun = false;
@@ -86,7 +117,9 @@ public class MotorA implements Runnable {
 		motorB.stop();
 	}
 	
-	//k‰‰nnyt‰‰n oikealle hidastamalla oikeaa (B) moottoria
+	/**
+	 * K‰‰nnyt‰‰n oikealle hidastamalla oikeaa (B) moottoria
+	 */
 	public void turnRight() { 
 		
 		int newspeed = bSpeed-lowerSpeed;
@@ -95,7 +128,9 @@ public class MotorA implements Runnable {
 		
 	}
 	
-	//k‰‰nnyt‰‰n vasemmalle hidastamalla vasenta (A) moottoria
+	/**
+	 * K‰‰nnyt‰‰n vasemmalle hidastamalla vasenta (A) moottoria
+	 */
 	public void turnLeft() {
 		
 		int newspeed = aSpeed-lowerSpeed;
@@ -104,17 +139,27 @@ public class MotorA implements Runnable {
 		
 	}
 	
-	
+	/**
+	 *  K‰‰nnyt‰‰n tiukasti oikealle peruuttamalla oikealla moottorilla,
+	 * kun vasen menee eteenp‰in.
+	 */
 	public void sharpTurnRight(){
 		motorB.backward();
 		motorA.forward();
 	}
 
+	/**
+	 * K‰‰nnyt‰‰n tiukasti vasemmalle peruuttamalla vasemmalla moottorilla,
+	 * kun oikea menee eteenp‰in.
+	 */
 	public void sharpTurnLeft(){
 		motorA.backward();
 		motorB.forward();
 	}
 	
+	/**
+	 * Ajatus siit‰, miten esteit‰ voisi v‰ist‰‰. Ei olla testattu t‰ysin toimivaksi.
+	 */
 	public void avoidObstacle() {
 		stopMotor();
 		sharpTurnRight();
@@ -135,7 +180,9 @@ public class MotorA implements Runnable {
 		
 	}
 
-	
+	/**
+	 * Peruutetaan kummallakin moottorilla.
+	 */
 	public void moveBackward(){
 		
 		motorA.backward();

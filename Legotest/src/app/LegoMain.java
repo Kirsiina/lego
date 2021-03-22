@@ -6,44 +6,56 @@ import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
 import runnables.ColorSensor;
 import runnables.MeasureDistance;
-import runnables.MotorA;
-import sensors.UltraSonicSensor;
+import runnables.MotorAB;
 
+/**
+ * @author Jenny, Jenna, Kirsi
+ * 
+ * Pääluokka, josta säikeiden avulla käskytetään muita luokkia.
+ */
 public class LegoMain {
 
 	public static void main(String[] args) {
-		
-		log("Program starts"); //kirjoitetaan lokiin ohjelman käynnistys
-		
-		MeasureDistance measuredistance = new MeasureDistance();
-		ColorSensor colorsensor = new ColorSensor(SensorPort.S4); //luodaan olio ColorSensor-luokasta, jolle mï¿½ï¿½ritellï¿½ï¿½n portti
-		MotorA motorA = new MotorA(MotorPort.A, MotorPort.B); //luodaan olio MotorA-luokasta kutsumalla sen muodostinta, ja lï¿½hetetï¿½ï¿½n kï¿½ytettï¿½vï¿½t portit
 
-		//luodaan säikeet, joka käyttää olioita
+		/** 
+		 * Luodaan oliot luokista käyttäen luokan muodostinta, ja annetaan parametriksi 
+		 * käytettävä portti, poikkeuksena MeasureDistance-luokka.
+		 */
+		MeasureDistance measuredistance = new MeasureDistance();
+		ColorSensor colorsensor = new ColorSensor(SensorPort.S4); 
+		MotorAB motorA = new MotorAB(MotorPort.A, MotorPort.B); 
+
+		/**
+		 * Luodaan säikeet, joka käyttää olioita
+		 */
 		Thread tMotorA = new Thread(motorA);  
 		Thread tColorSensor = new Thread(colorsensor);
 		Thread tMeasureDistance = new Thread(measuredistance);
 		
+		/**
+		 * Odotetaan, että käyttäjä painaa mitä tahansa näppäintä.
+		 */
 		System.out.println("Press any key to start");
-		
 		Button.waitForAnyPress();
 		
-		// käynnistetään säikeet
-		tColorSensor.start(); // tutkitaan sensorista saatavaa väriä
+		/**
+		 * Käynnistetään säikeet. Ensin tutkitaan sensorista saatavaa väriä, toisena
+		 * liikutaan eteenpäin ja kolmantena tutkitaan mahdollisia esteitä.
+		 */
+		tColorSensor.start();
 		Delay.msDelay(1500);
-		tMotorA.start();  //liikutaan eteenpäin
+		tMotorA.start(); 
 		tMeasureDistance.start();
 		
-
+		/**
+		 * Mikä tahansa nappäimen painallus pysäyttää moottorin, ja samalla
+		 * koko ohjelman.
+		 */
 		Button.waitForAnyPress();
 		motorA.stopMotor();
 		
 
 	}
 
-	private static void log(String msg) {
-		System.out.println("log>\t" + msg);
-		
-	}
 
 }
